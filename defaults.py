@@ -24,7 +24,8 @@ from pathlib import Path
 from os import environ
 from inspect import stack
 
-from antmicro_sphinx_utils import assets
+
+ROOT = Path(__file__).resolve().parent
 
 extensions = [
     'sphinx.ext.todo',
@@ -38,13 +39,19 @@ myst_enable_extensions = [
     'substitution'
 ]
 
+html_logo = str(ROOT / 'logo/html.png')
+
+latex_sty = str(ROOT / 'sphinx_antmicro.sty')
+
+
 def relative_to_git(loc: Path = None) -> Path:
     for item in loc.parents:
         if (item / '.git').is_dir():
             return loc.relative_to(item)
     return loc.name
 
-def default_antmicro_html_theme_options(
+
+def antmicro_html_theme_options(
     gh_slug = None, # Provide for repos also on GitHub
     pdf_url = None,
 ):
@@ -117,9 +124,10 @@ def default_antmicro_html_theme_options(
 
     return options
 
-def default_antmicro_latex_elements(basic_filename, project, authors, latex_logo=None):
+
+def antmicro_latex_elements(basic_filename, project, authors, latex_logo=None):
     if latex_logo is None:
-        latex_logo = str(assets.logo('latex'))
+        latex_logo = str(ROOT / 'logo/latex.png')
 
     # Grouping the document tree into LaTeX files. List of tuples
     # (source start file, target name, title, author, documentclass [howto/manual]).
@@ -128,7 +136,7 @@ def default_antmicro_latex_elements(basic_filename, project, authors, latex_logo
         authors, 'manual'),
     ]
 
-    latex_additional_files = [str(assets.latex_sty()),latex_logo]
+    latex_additional_files = [latex_sty, latex_logo]
 
     return ({
         'papersize': 'a4paper',
