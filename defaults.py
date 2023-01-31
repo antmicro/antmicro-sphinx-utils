@@ -39,10 +39,6 @@ myst_enable_extensions = [
     'substitution'
 ]
 
-html_logo = str(ROOT / 'logo/html.png')
-
-latex_sty = str(ROOT / 'sphinx_antmicro.sty')
-
 
 def relative_to_git(loc: Path = None) -> Path:
     for item in loc.parents:
@@ -51,7 +47,7 @@ def relative_to_git(loc: Path = None) -> Path:
     return loc.name
 
 
-def antmicro_html_theme_options(
+def antmicro_html(
     gh_slug = None, # Provide for repos also on GitHub
     pdf_url = None,
 ):
@@ -96,6 +92,7 @@ def antmicro_html_theme_options(
     }
 
     project_url = environ.get('CI_FULL_PROJECT_URL')
+    html_context = {}
 
     if project_url is not None:
         options.update({
@@ -107,10 +104,10 @@ def antmicro_html_theme_options(
                 "repo": "fontawesome/brands/git-alt",
             }
         })
-        if pdf_url is not None:
-            options.update({
-                "pdf_url": pdf_url,
-            })
+        html_context.update({
+            'commit': environ.get('CI_BUILD_REF')[0:8],
+            'branch': environ.get('CI_BUILD_REF_NAME')
+        })
     elif gh_slug is not None:
         options.update({
             "repo_url": f"https://github.com/{gh_slug}",
@@ -121,48 +118,60 @@ def antmicro_html_theme_options(
                 "repo": "fontawesome/brands/github",
             }
         })
+        html_context.update({
+            'commit': environ.get('GITHUB_SHA')[0:8],
+            'branch': environ.get('GITHUB_REF_NAME')
+        })
 
-    return options
+    if pdf_url is not None:
+        options.update({
+            "pdf_url": pdf_url,
+        })
+
+    return (str(ROOT / 'logo/html.png'), options, html_context)
 
 
-def antmicro_latex_elements(basic_filename, project, authors, latex_logo=None):
+def antmicro_latex(basic_filename, project, authors, latex_logo=None):
     if latex_logo is None:
         latex_logo = str(ROOT / 'logo/latex.png')
 
-    # Grouping the document tree into LaTeX files. List of tuples
-    # (source start file, target name, title, author, documentclass [howto/manual]).
-    latex_documents = [
-        ('index', basic_filename+'.tex', project,
-        authors, 'manual'),
-    ]
-
-    latex_additional_files = [latex_sty, latex_logo]
-
-    return ({
-        'papersize': 'a4paper',
-        'pointsize': '11pt',
-        'fontpkg': r'''
-            \usepackage{charter}
-            \usepackage[defaultsans]{lato}
-            \usepackage{inconsolata}
-            \usepackage{lscape}
-        ''',
-        'preamble': r'''
-              \usepackage{sphinx_antmicro}
-              \usepackage{multicol}
-        ''',
-        'maketitle': f'''
-            \\renewcommand{{\\releasename}}{{}}
-            \\renewcommand{{\sphinxlogo}}{{\includegraphics[height=75pt]{{{latex_logo}}}\par}}
-            \sphinxmaketitle
-        ''',
-        'classoptions':',openany,oneside',
-        'babel': r'''
-              \usepackage[english]{babel}
-              \makeatletter
-              \@namedef{ver@color.sty}{}
-              \makeatother
-              \usepackage{silence}
-              \WarningFilter{Fancyhdr}{\fancyfoot's `E' option without twoside}
-        '''
-    }, latex_documents, latex_logo, latex_additional_files)
+    return (
+        # latex_elements
+        {
+            'papersize': 'a4paper',
+            'pointsize': '11pt',
+            'fontpkg': r'''
+                \usepackage{charter}
+                \usepackage[defaultsans]{lato}
+                \usepackage{inconsolata}
+                \usepackage{lscape}
+            ''',
+            'preamble': r'''
+                  \usepackage{sphinx_antmicro}
+                  \usepackage{multicol}
+            ''',
+            'maketitle': f'''
+                \\renewcommand{{\\releasename}}{{}}
+                \\renewcommand{{\sphinxlogo}}{{\includegraphics[height=75pt]{{{latex_logo}}}\par}}
+                \sphinxmaketitle
+            ''',
+            'classoptions':',openany,oneside',
+            'babel': r'''
+                  \usepackage[english]{babel}
+                  \makeatletter
+                  \@namedef{ver@color.sty}{}
+                  \makeatother
+                  \usepackage{silence}
+                  \WarningFilter{Fancyhdr}{\fancyfoot's `E' option without twoside}
+            '''
+        },
+        # latex_documents
+        [
+            ('index', basic_filename+'.tex', project,
+            authors, 'manual'),
+        ],
+        # latex_logo
+        latex_logo,
+        # latex_additional_files
+        [str(ROOT / 'sphinx_antmicro.sty'), latex_logo]
+    )
