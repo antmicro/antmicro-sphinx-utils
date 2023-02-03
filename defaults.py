@@ -66,7 +66,6 @@ def antmicro_html(
         ],
         "palette": [
             {
-                "media": "(prefers-color-scheme: dark)",
                 "scheme": "slate",
                 "primary": "teal",
                 "accent": "deep-orange",
@@ -76,7 +75,6 @@ def antmicro_html(
                 },
             },
             {
-                "media": "(prefers-color-scheme: light)",
                 "scheme": "default",
                 "primary": "teal",
                 "accent": "deep-orange",
