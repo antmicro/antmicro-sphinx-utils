@@ -66,16 +66,6 @@ def antmicro_html(
         ],
         "palette": [
             {
-                "media": "(prefers-color-scheme: light)",
-                "scheme": "default",
-                "primary": "teal",
-                "accent": "deep-orange",
-                "toggle": {
-                    "icon": "material/weather-night",
-                    "name": "Switch to dark mode",
-                },
-            },
-            {
                 "media": "(prefers-color-scheme: dark)",
                 "scheme": "slate",
                 "primary": "teal",
@@ -83,6 +73,16 @@ def antmicro_html(
                 "toggle": {
                     "icon": "material/weather-sunny",
                     "name": "Switch to light mode",
+                },
+            },
+            {
+                "media": "(prefers-color-scheme: light)",
+                "scheme": "default",
+                "primary": "teal",
+                "accent": "deep-orange",
+                "toggle": {
+                    "icon": "material/weather-night",
+                    "name": "Switch to dark mode",
                 },
             },
         ],
