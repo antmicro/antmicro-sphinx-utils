@@ -106,7 +106,7 @@ def antmicro_html(
         })
         html_context.update({
             'commit': environ.get('CI_BUILD_REF')[0:8],
-            'branch': environ.get('CI_BUILD_REF_NAME')
+            'build_id': environ.get('CI_BUILD_REF_NAME')
         })
     elif gh_slug is not None:
         options.update({
@@ -120,10 +120,10 @@ def antmicro_html(
         })
 
         html_context.update({
-            'branch': environ.get('READTHEDOCS_VERSION_NAME')
+            'build_id': environ.get('READTHEDOCS_VERSION_NAME')
         } if environ.get('READTHEDOCS') == 'True' else {
             'commit': environ.get('GITHUB_SHA')[0:8],
-            'branch': environ.get('GITHUB_REF_NAME')
+            'build_id': environ.get('GITHUB_REF_NAME')
         })
 
     if pdf_url is not None:
