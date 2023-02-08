@@ -119,11 +119,12 @@ def antmicro_html(
             }
         })
 
-        if environ.get('READTHEDOCS') != 'True':
-            html_context.update({
-                'commit': environ.get('GITHUB_SHA')[0:8],
-                'branch': environ.get('GITHUB_REF_NAME')
-            })
+        html_context.update({
+            'branch': environ.get('READTHEDOCS_VERSION_NAME')
+        } if environ.get('READTHEDOCS') == 'True' else {
+            'commit': environ.get('GITHUB_SHA')[0:8],
+            'branch': environ.get('GITHUB_REF_NAME')
+        })
 
     if pdf_url is not None:
         options.update({
