@@ -35,7 +35,8 @@ setuptools_setup(
     package_data={
         "antmicro_sphinx_utils": [
             "*.sty",
-            "logo/*.png"
+            "logo/*.png",
+            "logo/*.svg",
         ],
     },
     classifiers=[],

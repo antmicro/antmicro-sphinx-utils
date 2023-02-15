@@ -129,7 +129,7 @@ def antmicro_html(
             "pdf_url": pdf_url,
         })
 
-    return (str(ROOT / 'logo/html.png'), options, html_context)
+    return (str(ROOT / 'logo/white.svg'), options, html_context)
 
 
 def antmicro_latex(basic_filename, project, authors, latex_logo=None):
