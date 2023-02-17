@@ -93,6 +93,7 @@ def antmicro_html(
     html_context = {}
 
     if project_url is not None:
+        commit_sha = environ.get('CI_BUILD_REF')
         options.update({
             "edit_uri": f"blob/{environ.get('CI_BUILD_REF_NAME', 'main')}/{conf_py_path}",
             "repo_url": project_url,
@@ -103,10 +104,11 @@ def antmicro_html(
             }
         })
         html_context.update({
-            'commit': environ.get('CI_BUILD_REF')[0:8],
+            'commit': commit_sha[0:8] if commit_sha else None,
             'build_id': environ.get('CI_BUILD_REF_NAME')
         })
     elif gh_slug is not None:
+        commit_sha = environ.get('GITHUB_SHA')
         options.update({
             "repo_url": f"https://github.com/{gh_slug}",
             "repo_name": gh_slug,
@@ -120,7 +122,7 @@ def antmicro_html(
         html_context.update({
             'build_id': environ.get('READTHEDOCS_VERSION_NAME')
         } if environ.get('READTHEDOCS') == 'True' else {
-            'commit': environ.get('GITHUB_SHA')[0:8],
+            'commit': commit_sha[0:8] if commit_sha else None,
             'build_id': environ.get('GITHUB_REF_NAME')
         })
 
