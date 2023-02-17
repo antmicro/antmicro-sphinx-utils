@@ -133,7 +133,7 @@ def antmicro_html(
                 'build_id': environ.get('GITHUB_REF_NAME'),
             })
 
-    if 'commit' in html_context:
+    if 'commit' in html_context and html_context['commit']:
         if 'commit_url' not in html_context:
             html_context['commit_url'] = f"{options['repo_url']}/tree/{html_context['commit']}"
         html_context['commit'] = html_context['commit'][0:8]
