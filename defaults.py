@@ -27,6 +27,12 @@ from inspect import stack
 
 ROOT = Path(__file__).resolve().parent
 
+numfig_format = {
+    'figure': 'Figure %s',
+    'table': 'Table %s',
+    'code-block': 'Listing %s'
+}
+
 extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.ifconfig',
