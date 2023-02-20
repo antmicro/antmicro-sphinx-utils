@@ -103,8 +103,8 @@ def antmicro_html(
             }
         })
         html_context.update({
-            'commit': environ.get('CI_BUILD_REF')[0:8],
-            'build_id': environ.get('CI_BUILD_REF_NAME')
+            'commit': environ.get('CI_BUILD_REF'),
+            'build_id': environ.get('CI_BUILD_REF_NAME'),
         })
     elif gh_slug is not None:
         options.update({
@@ -117,12 +117,29 @@ def antmicro_html(
             }
         })
 
-        html_context.update({
-            'build_id': environ.get('READTHEDOCS_VERSION_NAME')
-        } if environ.get('READTHEDOCS') == 'True' else {
-            'commit': environ.get('GITHUB_SHA')[0:8],
-            'build_id': environ.get('GITHUB_REF_NAME')
-        })
+        if environ.get('READTHEDOCS') == 'True':
+            build_id = environ.get('READTHEDOCS_VERSION_NAME')
+            isExternal = environ.get('READTHEDOCS_VERSION_TYPE') == 'external'
+            html_context.update({
+                'build_id': f"#{build_id}" if isExternal else build_id,
+                'build_url': (
+                    options['repo_url'] if build_id == 'latest' else
+                    f"{options['repo_url']}/{'pull' if isExternal else 'tree'}/{build_id}"
+                )
+            })
+        else:
+            html_context.update({
+                'commit': environ.get('GITHUB_SHA'),
+                'build_id': environ.get('GITHUB_REF_NAME'),
+            })
+
+    if 'commit' in html_context:
+        if 'commit_url' not in html_context:
+            html_context['commit_url'] = f"{options['repo_url']}/tree/{html_context['commit']}"
+        html_context['commit'] = html_context['commit'][0:8]
+
+    if ('build_id' in html_context) and ('build_url' not in html_context):
+        html_context['build_url'] = f"{options['repo_url']}/tree/{html_context['build_id']}"
 
     if pdf_url is not None:
         options.update({
