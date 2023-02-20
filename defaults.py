@@ -127,6 +127,9 @@ def antmicro_html(
                     f"{options['repo_url']}/{'pull' if isExternal else 'tree'}/{build_id}"
                 )
             })
+
+            if pdf_url is not None:
+                pdf_url = None
         else:
             html_context.update({
                 'commit': environ.get('GITHUB_SHA'),
