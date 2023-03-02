@@ -39,7 +39,8 @@ extensions = [
 ]
 
 myst_enable_extensions = [
-    'substitution'
+    'substitution',
+    'colon_fence'
 ]
 
 
