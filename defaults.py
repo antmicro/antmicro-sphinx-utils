@@ -40,7 +40,8 @@ extensions = [
 
 myst_enable_extensions = [
     'substitution',
-    'colon_fence'
+    'colon_fence',
+    'attrs_block'
 ]
 
 
