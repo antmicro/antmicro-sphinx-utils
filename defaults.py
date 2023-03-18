@@ -33,7 +33,6 @@ numfig_format = {
 extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.ifconfig',
-    'sphinxcontrib.internal',
     'myst_parser',
     'sphinx_immaterial',
 ]
