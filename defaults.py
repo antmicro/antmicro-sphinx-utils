@@ -43,6 +43,10 @@ myst_enable_extensions = [
     'attrs_block'
 ]
 
+myst_fence_as_directive = [
+    'mermaid',
+    'math'
+]
 
 def relative_to_git(loc: Path = None) -> Path:
     for item in loc.parents:
