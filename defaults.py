@@ -35,6 +35,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'myst_parser',
     'sphinx_immaterial',
+    'sphinxcontrib.mermaid',
 ]
 
 myst_enable_extensions = [
