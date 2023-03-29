@@ -17,9 +17,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from pathlib import Path
-from typing import List
-
 from setuptools import setup as setuptools_setup
 
 
