@@ -106,7 +106,6 @@ def antmicro_html(
             "edit_uri": f"blob/{environ.get('CI_BUILD_REF_NAME', 'main')}/{conf_py_path}",
             "repo_url": project_url,
             "repo_name": project_url.split('/')[-1],
-            "repo_type": "gitlab",
             "icon": {
                 "repo": "fontawesome/brands/git-alt",
             }
@@ -120,7 +119,6 @@ def antmicro_html(
             "repo_url": f"https://github.com/{gh_slug}",
             "repo_name": gh_slug,
             "edit_uri": f"blob/{environ.get('GITHUB_REF_NAME', 'main')}/{conf_py_path}",
-            "repo_type": "github",
             "icon": {
                 "repo": "fontawesome/brands/github",
             }
