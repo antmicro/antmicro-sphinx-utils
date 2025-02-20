@@ -38,7 +38,7 @@ setuptools_setup(
     },
     install_requires=[
         'myst-parser',
-        'sphinx<8.2.0',
+        'sphinx',
         'sphinxcontrib-mermaid',
         'sphinx-immaterial @ https://github.com/antmicro/sphinx-immaterial/releases/download/tip/sphinx_immaterial-0.0.post1-py3-none-any.whl',  # noqa: E501
         'sphinx_tabs',
